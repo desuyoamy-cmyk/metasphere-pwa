@@ -1,0 +1,20 @@
+{
+  "name": "METASPHERE: Short Story Chatbot",
+  "short_name": "METASPHERE",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "meta.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "meta.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

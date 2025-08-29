@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>METASPHERE: Short Story Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <!-- App Icon -->
+  <link rel="icon" href="meta.png" type="image/png">
+  <meta name="theme-color" content="#ffffff">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: white;
+      margin: 0;
+      padding: 0;
+    }
+    .page {
+      display: none;
+      padding: 20px;
+    }
+    .active {
+      display: block;
+    }
+    button {
+      margin: 10px;
+      padding: 12px 20px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+    .exit-btn {
+      background: red;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1 (Logo) -->
+  <div id="page1" class="page active">
+    <img src="meta.png" alt="Logo" width="250"><br>
+    <p>Tap to Continue</p>
+    <button onclick="showPage('page2')">Next →</button>
+  </div>
+
+  <!-- PAGE 2 (Video Intro) -->
+  <div id="page2" class="page">
+    <video id="introVideo" width="500" autoplay>
+      <source src="logo.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video><br>
+    <button onclick="showPage('page3')">Skip →</button>
+  </div>
+
+  <!-- PAGE 3 (Buttons + Audio) -->
+  <div id="page3" class="page">
+    <h2>METASPHERE: Short Story Chatbot</h2>
+
+    <div id="buttons"></div>
+
+    <button class="exit-btn" onclick="window.close()">Exit</button>
+  </div>
+
+  <script>
+    // ==== PAGE HANDLER ====
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+
+      if (pageId === "page2") {
+        let vid = document.getElementById("introVideo");
+        vid.onended = () => showPage("page3");
+      }
+    }
+
+    // ==== AUDIO BUTTONS ====
+    const Q2MP3 = {
+      "What is MetaSphere?": "metacogniton.mp3",
+      "What is Metacognition?": "metacogniton.mp3",
+      "What is Short Story?": "short_story.mp3",
+      "What are the Key Elements?": "key_elements.mp3",
+      "What is Plot?": "plot.mp3",
+      "What is Exposition?": "exposition.mp3",
+      "What is Rising Action?": "rising_action.mp3",
+      "What is Climax?": "climax.mp3",
+      "What is Falling Action?": "falling_action.mp3",
+      "What is Denouement?": "denouement.mp3",
+      "Who are the Characters?": "characters.mp3",
+      "What is Setting?": "settings.mp3",
+      "What is Theme?": "theme.mp3",
+      "What is Conflict?": "conflict.mp3",
+      "Types of Conflict": "types_of_conflict.mp3"
+    };
+
+    const btnContainer = document.getElementById("buttons");
+    Object.entries(Q2MP3).forEach(([label, file]) => {
+      let btn = document.createElement("button");
+      btn.textContent = label;
+      btn.onclick = () => playAudio(file);
+      btnContainer.appendChild(btn);
+      btnContainer.appendChild(document.createElement("br"));
+    });
+
+    // ==== AUDIO PLAYER ====
+    let currentAudio = null;
+    function playAudio(file) {
+      if (currentAudio) {
+        currentAudio.pause();
+      }
+      currentAudio = new Audio(file);
+      currentAudio.play();
+    }
+
+    // ==== PWA INSTALL ====
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+      .then(() => console.log("Service Worker registered!"));
+    }
+  </script>
+
+</body>
+</html>
